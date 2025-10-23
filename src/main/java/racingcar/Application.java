@@ -1,6 +1,7 @@
 package racingcar;
 
 import racingcar.controller.Controller;
+import racingcar.domain.RaceParticipants;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class Application {
         List<String> carNames = controller.readCarNames();
         int attemptCount = controller.readAttemptCount();
 
-        // TODO: Step 2 이후 로직에서 carNames와 attemptCount를 활용한다.
+        RaceParticipants cars = RaceParticipants.from(carNames);
+
+        // TODO: Step 3 이후 로직에서 cars와 attemptCount를 활용한다.
     }
 }

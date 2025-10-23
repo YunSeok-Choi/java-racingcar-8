@@ -27,11 +27,11 @@ public final class InputValidator {
         }
 
         for (String name : names) {
-            validateSingleName(name);
+            validateCarName(name);
         }
     }
 
-    private static void validateSingleName(String name) {
+    public static void validateCarName(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("자동차 이름은 비어 있을 수 없습니다.");
         }
