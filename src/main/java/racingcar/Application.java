@@ -1,20 +1,32 @@
 package racingcar;
 
-import racingcar.controller.Controller;
+import racingcar.controller.RequestController;
 import racingcar.domain.RaceParticipants;
+import racingcar.game.RacingGame;
+import racingcar.generator.MissionRandomNumberGenerator;
+import racingcar.generator.RandomNumberGenerator;
+import racingcar.controller.ResponseController;
 
 import java.util.List;
 
 public class Application {
 
     public static void main(String[] args) {
-        Controller controller = new Controller();
+        RequestController request = new RequestController();
 
-        List<String> carNames = controller.readCarNames();
-        int attemptCount = controller.readAttemptCount();
+        List<String> carNames = request.readCarNames();
+        int attemptCount = request.readAttemptCount();
 
-        RaceParticipants cars = RaceParticipants.from(carNames);
+        RaceParticipants raceParticipants = RaceParticipants.from(carNames);
 
-        // TODO: Step 3 이후 로직에서 cars와 attemptCount를 활용한다.
+        RandomNumberGenerator numberGenerator = new MissionRandomNumberGenerator();
+        RacingGame racingGame = new RacingGame(raceParticipants, numberGenerator);
+
+        List<List<String>> roundStates = racingGame.play(attemptCount);
+
+        ResponseController response = new ResponseController();
+        response.printRaceProgress(roundStates);
+
+        // TODO: Step 4 이후 로직에서 우승자 계산과 최종 출력 처리를 추가한다.
     }
 }

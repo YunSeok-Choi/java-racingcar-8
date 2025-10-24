@@ -19,7 +19,7 @@ public class RaceParticipants {
         return new RaceParticipants(carList);
     }
 
-    public List<Car> asList() {
-        return Collections.unmodifiableList(cars);
+    public List<Car> getCars() {
+        return cars;
     }
 }
