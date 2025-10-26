@@ -21,11 +21,24 @@ class RacingGameTest {
         RacingGame racingGame = new RacingGame(participants, generator);
 
         List<List<String>> roundLogs = racingGame.play(2);
+        List<String> winners = racingGame.determineWinners();
 
         assertThat(roundLogs).hasSize(2);
-
         assertThat(roundLogs.get(0)).containsExactly("pobi : -", "woni : ");
         assertThat(roundLogs.get(1)).containsExactly("pobi : --", "woni : -");
+        assertThat(winners).containsExactly("pobi");
+    }
+
+    @Test
+    void 공동_우승자를_계산한다() {
+        RaceParticipants participants = RaceParticipants.from(List.of("pobi", "jun"));
+        RandomNumberGenerator generator = new FakeNumberGenerator(List.of(4, 4));
+        RacingGame racingGame = new RacingGame(participants, generator);
+
+        racingGame.play(1);
+        List<String> winners = racingGame.determineWinners();
+
+        assertThat(winners).containsExactly("pobi", "jun");
     }
 
     private static class FakeNumberGenerator implements RandomNumberGenerator {

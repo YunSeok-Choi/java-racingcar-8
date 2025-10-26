@@ -16,16 +16,17 @@ class ResponseControllerTest {
     @Test
     void 라운드_결과를_형식에_맞게_출력한다() {
         ResponseController response = new ResponseController();
-        List<List<String>> roundStates = List.of(
+        List<List<String>> roundLogs = List.of(
                 List.of("pobi : -", "woni : "),
                 List.of("pobi : --", "woni : -")
         );
+        List<String> winners = List.of("pobi");
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
         try {
-            response.printRaceProgress(roundStates);
+            response.printRaceResult(roundLogs, winners);
         } finally {
             System.setOut(originalOut);
         }
@@ -38,7 +39,8 @@ class ResponseControllerTest {
                 + lineSeparator
                 + "pobi : --" + lineSeparator
                 + "woni : -" + lineSeparator
-                + lineSeparator;
+                + lineSeparator
+                + "최종 우승자 : pobi" + lineSeparator;
         assertThat(outContent.toString()).isEqualTo(expected);
     }
 }

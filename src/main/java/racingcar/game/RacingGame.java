@@ -6,7 +6,6 @@ import racingcar.generator.RandomNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RacingGame {
 
@@ -26,7 +25,7 @@ public class RacingGame {
             advanceCars();
             roundLogs.add(captureRoundLog());
         }
-        return List.copyOf(roundLogs);
+        return roundLogs;
     }
 
     private void advanceCars() {
@@ -42,12 +41,36 @@ public class RacingGame {
     }
 
     private List<String> captureRoundLog() {
-        return participants.getCars().stream()
-                .map(this::formatProgress)
-                .toList();
+        List<String> roundLog = new ArrayList<>();
+        for (Car car : participants.getCars()) {
+            roundLog.add(formatProgress(car));
+        }
+        return roundLog;
     }
 
     private String formatProgress(Car car) {
         return car.getName() + " : " + "-".repeat(car.getPosition());
+    }
+
+    public List<String> determineWinners() {
+        List<Car> cars = participants.getCars();
+        if (cars.isEmpty()) {
+            throw new IllegalStateException("참가자 정보가 비어 있습니다.");
+        }
+
+        int maxPosition = cars.get(0).getPosition();
+        for (Car car : cars) {
+            if (car.getPosition() > maxPosition) {
+                maxPosition = car.getPosition();
+            }
+        }
+
+        List<String> winners = new ArrayList<>();
+        for (Car car : cars) {
+            if (car.getPosition() == maxPosition) {
+                winners.add(car.getName());
+            }
+        }
+        return winners;
     }
 }
