@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.RaceParticipants;
+import racingcar.domain.RaceRound;
 import racingcar.generator.RandomNumberGenerator;
 
 import java.util.Iterator;
@@ -20,12 +21,14 @@ class RacingGameTest {
         RandomNumberGenerator generator = new FakeNumberGenerator(List.of(4, 3, 4, 9));
         RacingGame racingGame = new RacingGame(participants, generator);
 
-        List<List<String>> roundLogs = racingGame.play(2);
+        List<RaceRound> rounds = racingGame.play(2);
         List<String> winners = racingGame.determineWinners();
 
-        assertThat(roundLogs).hasSize(2);
-        assertThat(roundLogs.get(0)).containsExactly("pobi : -", "woni : ");
-        assertThat(roundLogs.get(1)).containsExactly("pobi : --", "woni : -");
+        assertThat(rounds).hasSize(2);
+        assertThat(rounds.get(0).toProgressLogs())
+                .containsExactly("pobi : -", "woni : ");
+        assertThat(rounds.get(1).toProgressLogs())
+                .containsExactly("pobi : --", "woni : -");
         assertThat(winners).containsExactly("pobi");
     }
 
@@ -35,9 +38,10 @@ class RacingGameTest {
         RandomNumberGenerator generator = new FakeNumberGenerator(List.of(4, 4));
         RacingGame racingGame = new RacingGame(participants, generator);
 
-        racingGame.play(1);
+        List<RaceRound> rounds = racingGame.play(1);
         List<String> winners = racingGame.determineWinners();
 
+        assertThat(rounds).hasSize(1);
         assertThat(winners).containsExactly("pobi", "jun");
     }
 

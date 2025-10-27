@@ -3,6 +3,7 @@ package racingcar;
 import racingcar.controller.RequestController;
 import racingcar.controller.ResponseController;
 import racingcar.domain.RaceParticipants;
+import racingcar.domain.RaceRound;
 import racingcar.game.RacingGame;
 import racingcar.generator.MissionRandomNumberGenerator;
 import racingcar.generator.RandomNumberGenerator;
@@ -22,9 +23,9 @@ public class Application {
         RaceParticipants raceParticipants = RaceParticipants.from(carNames);
 
         RacingGame racingGame = new RacingGame(raceParticipants, numberGenerator);
-        List<List<String>> roundLogs = racingGame.play(attemptCount);
+        List<RaceRound> rounds = racingGame.play(attemptCount);
         List<String> winners = racingGame.determineWinners();
 
-        response.printRaceResult(roundLogs, winners);
+        response.printRaceResult(rounds, winners);
     }
 }

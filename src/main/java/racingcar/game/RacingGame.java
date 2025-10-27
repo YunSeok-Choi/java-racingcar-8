@@ -2,6 +2,7 @@ package racingcar.game;
 
 import racingcar.domain.Car;
 import racingcar.domain.RaceParticipants;
+import racingcar.domain.RaceRound;
 import racingcar.generator.RandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -19,13 +20,13 @@ public class RacingGame {
         this.numberGenerator = numberGenerator;
     }
 
-    public List<List<String>> play(int attemptCount) {
-        List<List<String>> roundLogs = new ArrayList<>();
+    public List<RaceRound> play(int attemptCount) {
+        List<RaceRound> rounds = new ArrayList<>();
         for (int attempt = 0; attempt < attemptCount; attempt++) {
             advanceCars();
-            roundLogs.add(captureRoundLog());
+            rounds.add(RaceRound.fromCars(participants.getCars()));
         }
-        return roundLogs;
+        return rounds;
     }
 
     private void advanceCars() {
@@ -38,18 +39,6 @@ public class RacingGame {
 
     private boolean isMovable() {
         return numberGenerator.generate() >= MOVE_THRESHOLD;
-    }
-
-    private List<String> captureRoundLog() {
-        List<String> roundLog = new ArrayList<>();
-        for (Car car : participants.getCars()) {
-            roundLog.add(formatProgress(car));
-        }
-        return roundLog;
-    }
-
-    private String formatProgress(Car car) {
-        return car.getName() + " : " + "-".repeat(car.getPosition());
     }
 
     public List<String> determineWinners() {

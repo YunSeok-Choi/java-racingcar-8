@@ -1,5 +1,7 @@
 package racingcar.controller;
 
+import racingcar.domain.RaceRound;
+
 import java.util.List;
 
 public class ResponseController {
@@ -8,20 +10,20 @@ public class ResponseController {
     private static final String WINNER_MESSAGE_PREFIX = "최종 우승자 : ";
     private static final String WINNER_DELIMITER = ", ";
 
-    public void printRaceResult(List<List<String>> roundLogs, List<String> winners) {
+    public void printRaceResult(List<RaceRound> rounds, List<String> winners) {
         System.out.println();
         System.out.println(EXECUTION_RESULT_MESSAGE);
 
-        for (List<String> round : roundLogs) {
+        for (RaceRound round : rounds) {
             printRound(round);
         }
 
         printWinners(winners);
     }
 
-    private void printRound(List<String> round) {
-        for (String progress : round) {
-            System.out.println(progress);
+    private void printRound(RaceRound round) {
+        for (String log : round.getProgressLogs()) {
+            System.out.println(log);
         }
         System.out.println();
     }
